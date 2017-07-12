@@ -1,17 +1,16 @@
-name := """rps-bot"""
-organization := "com.example"
+lazy val commonSettings = Seq(
+  name := """rps-bot""",
+  organization := "com.example",
+  version := "1.0-SNAPSHOT",
+  scalaVersion := "2.11.11",
+  crossScalaVersions := Seq("2.10.6", "2.12.2"),
+  libraryDependencies ++= Seq(cache, filters,
+    "org.scalatest" %% "scalatest" % "2.2.6" % Test,
+    "org.mockito" % "mockito-core" % "1.9.0" % Test,
+    "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % "test"
+  )
+)
 
-version := "1.0-SNAPSHOT"
+lazy val root = (project in file(".")).
+  settings(commonSettings: _*).enablePlugins(PlayScala)
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
-
-scalaVersion := "2.11.11"
-
-libraryDependencies += filters
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % Test
-
-// Adds additional packages into Twirl
-//TwirlKeys.templateImports += "com.example.controllers._"
-
-// Adds additional packages into conf/routes
-// play.sbt.routes.RoutesKeys.routesImport += "com.example.binders._"

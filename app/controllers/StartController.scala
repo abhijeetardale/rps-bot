@@ -1,19 +1,23 @@
 package controllers
 
-import play.api.libs.json.Json
+import javax.inject.Inject
+
+import model.rbsinfo
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, Controller}
+import services.{CachingService, rbsCache}
 
-case class rbsinfo(opponentName:String,
-                   pointsToWin:Int,
-                   maxRounds:Int,
-                   dynamiteCount:Int)
-object rbsinfo{
-  implicit val formats=Json.format[rbsinfo]
-}
+import scala.concurrent.Future
+import scala.util.{Failure, Success, Try}
 
 
-class StartController extends Controller {
-  def start() = Action {
-    Ok
+class StartController@Inject()(cache: CachingService) extends Controller {
+  def start(): Action[JsValue] = Action.async(parse.json) { implicit request =>
+    Try(request.body.as[rbsinfo]) match {
+      case Success(payload) =>
+        cache.saveOpponentInfo(payload)
+        Future.successful((Ok))
+      case Failure(e) => Future.successful(BadRequest(s"Invalid payload: $e"))
+    }
   }
 }
