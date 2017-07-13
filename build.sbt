@@ -5,8 +5,10 @@ lazy val commonSettings = Seq(
   scalaVersion := "2.11.11",
   crossScalaVersions := Seq("2.10.6", "2.12.2"),
   libraryDependencies ++= Seq(cache, filters,
-    "org.scalatest" %% "scalatest" % "2.2.6" % Test,
-    "org.mockito" % "mockito-core" % "1.9.0" % Test,
+    "org.specs2" %% "specs2-core" % "3.8.4" % "test",
+    "org.scalactic" %% "scalactic" % "3.0.1",
+    "org.scalatest" %% "scalatest" % "3.0.1" % "test",
+    "org.mockito" % "mockito-core" % "1.9.0" % "test",
     "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % "test"
   )
 )

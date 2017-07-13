@@ -13,6 +13,8 @@ trait rbsCache {
   def saveOpponentInfo(info : rbsinfo)
   def getOpponentInfo() : Option[rbsinfo]
   def getOpponentLastMove() : Option[List[lastMove]]
+  def updateDynamiteCount
+  def getDynamiteCount : Int
 }
 
 
@@ -42,6 +44,17 @@ class CachingService@Inject()(cache: CacheApi) extends rbsCache {
 
   override def getOpponentLastMove(): Option[List[lastMove]] = {
     cache.get[List[lastMove]]("lastMove")
+  }
+
+  override def updateDynamiteCount: Unit = {
+
+    val count = cache.getOrElse("dynamiteCount")(0)
+
+    cache.set("dynamiteCount", count+1, 5.minutes)
+  }
+
+  override def getDynamiteCount: Int = {
+    cache.getOrElse("dynamiteCount")(0)
   }
 
 }

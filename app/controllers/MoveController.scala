@@ -13,7 +13,13 @@ import scala.util.{Failure, Success, Try}
 class MoveController@Inject()(cache: CachingService) extends Controller {
 
   def move() = Action {
-    Ok(Json.toJson("ROCK"))
+    val lastMoves = cache.getOpponentLastMove()
+    val move = if(lastMoves.isDefined){
+      "ROCK"
+    } else{
+      "ROCK"
+    }
+    Ok(Json.toJson(move))
   }
 
   def lastOpponentMove() : Action[JsValue] = Action.async(parse.json) { implicit request =>
