@@ -17,27 +17,27 @@ class rbsCacheSpec extends WordSpec with Matchers with GuiceOneAppPerSuite with 
   "rbsCacheSpec calling upateLastMove" should {
 
     "update the list with 1st element" in {
-      rbsCacheObj.upateLastMove(lastMove("ROCK"))
+      rbsCacheObj.updateOpponentLastMove(lastMove("ROCK"))
       cacheApi.get("lastMove") shouldBe Some(List(lastMove("ROCK")))
     }
 
     "update the list with 2nd element" in {
-      rbsCacheObj.upateLastMove(lastMove("PAPER"))
+      rbsCacheObj.updateOpponentLastMove(lastMove("PAPER"))
       cacheApi.get("lastMove") shouldBe Some(List(lastMove("ROCK"),lastMove("PAPER")))
     }
 
     "update the list with 3rd element" in {
-      rbsCacheObj.upateLastMove(lastMove("SCISSORS"))
+      rbsCacheObj.updateOpponentLastMove(lastMove("SCISSORS"))
       cacheApi.get("lastMove") shouldBe Some(List(lastMove("ROCK"),lastMove("PAPER"),lastMove("SCISSORS")))
     }
 
     "update the list with 4th element" in {
-      rbsCacheObj.upateLastMove(lastMove("DYNAMITE"))
+      rbsCacheObj.updateOpponentLastMove(lastMove("DYNAMITE"))
       cacheApi.get("lastMove") shouldBe Some(List(lastMove("ROCK"),lastMove("PAPER"),lastMove("SCISSORS"),lastMove("DYNAMITE")))
     }
 
     "update the list with 5th element" in {
-      rbsCacheObj.upateLastMove(lastMove("WATERBOMB"))
+      rbsCacheObj.updateOpponentLastMove(lastMove("WATERBOMB"))
       cacheApi.get("lastMove") shouldBe Some(List(lastMove("ROCK"),lastMove("PAPER"),lastMove("SCISSORS"),lastMove("DYNAMITE"),lastMove("WATERBOMB")))
     }
   }
@@ -82,17 +82,17 @@ class rbsCacheSpec extends WordSpec with Matchers with GuiceOneAppPerSuite with 
 
     "get the Opponent Info if present" in {
       val info = rbsinfo("Tiger", 100, 200, 100)
-      rbsCacheObj.upateLastMove(lastMove("WATERBOMB"))
+      rbsCacheObj.updateOpponentLastMove(lastMove("WATERBOMB"))
       rbsCacheObj.getOpponentLastMove() shouldBe Some(List(lastMove("WATERBOMB")))
     }
 
     "get the Opponent Info if list present" in {
       cacheApi.remove("lastMove")
       val info = rbsinfo("Tiger", 100, 200, 100)
-      rbsCacheObj.upateLastMove(lastMove("ROCK"))
-      rbsCacheObj.upateLastMove(lastMove("PAPER"))
+      rbsCacheObj.updateOpponentLastMove(lastMove("ROCK"))
+      rbsCacheObj.updateOpponentLastMove(lastMove("PAPER"))
       cacheApi.get("lastMove") shouldBe Some(List(lastMove("ROCK"),lastMove("PAPER")))
-      rbsCacheObj.upateLastMove(lastMove("SCISSORS"))
+      rbsCacheObj.updateOpponentLastMove(lastMove("SCISSORS"))
       cacheApi.get("lastMove") shouldBe Some(List(lastMove("ROCK"),lastMove("PAPER"),lastMove("SCISSORS")))
       rbsCacheObj.getOpponentLastMove() shouldBe Some(List(lastMove("ROCK"),lastMove("PAPER"),lastMove("SCISSORS")))
     }

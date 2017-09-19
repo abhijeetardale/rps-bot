@@ -8,25 +8,17 @@ import scala.concurrent.duration._
 
 
 trait rbsCache {
-
-  def upateLastMove(move : lastMove)
   def saveOpponentInfo(info : rbsinfo)
   def getOpponentInfo() : Option[rbsinfo]
-  def getOpponentLastMove() : Option[List[lastMove]]
-  def updateDynamiteCount
-  def getDynamiteCount : Int
+  def updateOpponentLastMove(move : String)
+  def getOpponentLastMove() : Option[List[String]]
+  def updateMyLastMove(move : String)
+  def getMyLastMove() : Option[List[String]]
+  def resetCache()
 }
 
 
 class CachingService@Inject()(cache: CacheApi) extends rbsCache {
-
-  def upateLastMove(move : lastMove) = {
-
-    val lastMoves = cache.getOrElse("lastMove")(List[lastMove]())
-
-    cache.set("lastMove", lastMoves:::List(move), 5.minutes)
-
-  }
 
   def saveOpponentInfo(info : rbsinfo) = {
 
@@ -42,19 +34,33 @@ class CachingService@Inject()(cache: CacheApi) extends rbsCache {
     cache.get[rbsinfo]("opponentInfo")
   }
 
-  override def getOpponentLastMove(): Option[List[lastMove]] = {
-    cache.get[List[lastMove]]("lastMove")
+  override def getOpponentLastMove(): Option[List[String]] = {
+    cache.get[List[String]]("opponentLastMove")
   }
 
-  override def updateDynamiteCount: Unit = {
+  override def updateOpponentLastMove(move: String): Unit = {
 
-    val count = cache.getOrElse("dynamiteCount")(0)
+    val lastMoves = cache.getOrElse("opponentLastMove")(List[String]())
 
-    cache.set("dynamiteCount", count+1, 5.minutes)
+    cache.set("opponentLastMove", lastMoves:::List(move), 5.minutes)
+
   }
 
-  override def getDynamiteCount: Int = {
-    cache.getOrElse("dynamiteCount")(0)
+  override def getMyLastMove(): Option[List[String]] = {
+    cache.get[List[String]]("myLastMove")
   }
 
+  override def updateMyLastMove(move: String): Unit = {
+
+    val lastMoves = cache.getOrElse("myLastMove")(List[String]())
+
+    cache.set("myLastMove", lastMoves:::List(move), 5.minutes)
+
+  }
+
+  override def resetCache(): Unit = {
+    cache.set("opponentInfo", List(), 5.minutes)
+    cache.set("opponentLastMove", List(), 5.minutes)
+    cache.set("myLastMove", List(), 5.minutes)
+  }
 }
