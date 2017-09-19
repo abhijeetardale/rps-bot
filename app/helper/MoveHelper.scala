@@ -10,7 +10,7 @@ class MoveHelper {
  def getMove(lastMoves :  Option[List[lastMove]]): String = {
 
    if(lastMoves.isDefined && lastMoves.get.nonEmpty){
-     ""
+     Random.shuffle(List("ROCK", "PAPER", "SCISSORS", "DYNAMITE", "WATERBOMB")).head
    } else {
      Random.shuffle(List("ROCK", "PAPER", "SCISSORS", "DYNAMITE", "WATERBOMB")).head
    }
