@@ -7,18 +7,14 @@ import play.api.libs.json.{JsError, JsSuccess, JsValue, Json}
 import play.api.mvc.{Action, Controller}
 import services.{rbsCache, CachingService}
 import scala.concurrent.Future
-import scala.util.{Failure, Success, Try}
+import scala.util.{Random, Failure, Success, Try}
 
 
 class MoveController@Inject()(cache: CachingService) extends Controller {
 
   def move() = Action {
     val lastMoves = cache.getOpponentLastMove()
-    val move = if(lastMoves.isDefined){
-      "ROCK"
-    } else{
-      "ROCK"
-    }
+    val move = Random.shuffle(List("ROCK", "PAPER", "SCISSORS", "DYNAMITE", "WATERBOMB")).head
     Ok(Json.toJson(move))
   }
 
