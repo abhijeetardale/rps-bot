@@ -1,0 +1,1 @@
+web: target/universal/stage/bin/rps-bot -Dhttp.port=$PORT -Dplay.crypto.secret=${APPLICATION_SECRET}
