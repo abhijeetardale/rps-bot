@@ -19,7 +19,7 @@ class MoveHelper {
   def oppositionDynamiteCount(lastMoves :  Option[List[lastMove]]) : Int = {
 
     if(lastMoves.isDefined && lastMoves.nonEmpty)
-      lastMoves.get.filter(move=>move.lastOpponentMove=="DYNAMITE").length
+      lastMoves.get.filter(move=>move.opponentLastMove=="DYNAMITE").length
     else 0
 
   }
