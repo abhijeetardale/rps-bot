@@ -11,7 +11,7 @@ object rbsinfo{
   implicit val formats=Json.format[rbsinfo]
 }
 
-case class lastMove(lastOpponentMove:String)
+case class lastMove(opponentLastMove:String)
 
 object lastMove{
   implicit val formats=Json.format[lastMove]

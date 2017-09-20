@@ -31,7 +31,7 @@ class MoveController @Inject()(cache: CachingService) extends Controller {
   def lastOpponentMove(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     Try(request.body.as[lastMove]) match {
       case Success(payload) =>
-        cache.updateOpponentLastMove(payload.lastOpponentMove)
+        cache.updateOpponentLastMove(payload.opponentLastMove)
         Future.successful((Ok))
       case Failure(e) => Future.successful(BadRequest(s"Invalid payload: $e"))
     }
