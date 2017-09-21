@@ -24,7 +24,6 @@ class MoveController @Inject()(cache: CachingService) extends Controller {
       moveHelper.getDefaultMove()
     }
     cache.updateMyLastMove(move)
-    println("################## Move : " +move)
     Ok(Json.toJson(move))
   }
 
