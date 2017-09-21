@@ -165,8 +165,8 @@ class MoveHelper extends Constants{
     opponentLastMoves.size>=size && myLastMoves.size>=size
   }
 
-  private def lastNItemSame(opponentLastMoves :  List[String], myLastMoves :  List[String], size:Int): Boolean ={
-    opponentLastMoves.takeRight(size) == myLastMoves.takeRight(size)
+  private def lastNItemSame(opponentLastMoves :  List[String], myLastMoves :  List[String], size:Int): Boolean = {
+    !opponentLastMoves.takeRight(size).zip(myLastMoves.takeRight(size)).exists(p=> p._1!=p._2)
   }
 
   private def oppositionDynamiteCount(lastMoves :  List[String]) : Int = {
